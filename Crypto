@@ -1,0 +1,669 @@
+$
+corepack enable
+Not The Industry-dapp@latest
+yarn create coinweb-dapp
+const CONTRACT_TEMPLATE = «contract-template-id»
+const OFF_CHAIN_LOGIC_ID = «off_chain_logic.ref»
+const INTERPRETER_ID = «...»`
+cweb_6df2b349518e2ec0397d896f50efffb83fd32805baee00f75063e2292fe4cb7
+pnpm add @coinweb/cweb-tool
+yarn add @coinweb/cweb-tool
+{
+  "scripts": {
+    "postinstall": "cweb-tool audit"
+  }
+}
+WALLET_PRIV_KEY='xxxxxxxx' npx  cweb-tool publish --index «url to index that includes this contract-module» --broadcaster ../broadcaster_conf.json
+# which "quickjs" versions that are avaliable to use.
+interpreters:
+  # This is the `interpreter_id` the developers shall copy&paste on their `package.json`
+  422e37bab5f47a03092bdb5a19fe0b80522d83c901343db00046819bb97242ef:
+    version_date: 2023-08-17T11:58:52-03:00
+    alias: 'wasm_quickjs v12.3.4' # WARNING, this alias is not verified.
+    entry_point:
+      url: 'https://fake-url-to-wasmedge.com/files/quickjs.v12.3.4.wasm'
+      blake3: 6b704a3a9ae9e5ebde410127041bf5d03e82b5ba5273a6020118c2f4b2a1ddfc
+    auto_registry_code:
+      url: 'https://coinweb.io/files/autoregistry.js'
+      blake3: 957131fdf415ae5e35a5a80e4eb652bcd56b7f354ef7a505627cb46c071937c5
+    cli_args: '--execute "cweb_exec()" --out output/file.json --folder ./'
+    env: [] 
+templates:
+  token_balance_keeper:
+    # when this version was published
+    version_date: 2023-08-17T11:58:52-03:00
+
+    # The contract-template-id, require to define new instances of new `token_balance_keeper`.
+    contract_module: e48afe8b5234bb527ee4807f714d42901c77002ca1bb7e8e4e876fdd1626339f
+
+    pkg_mirror:
+      url: https://gitlab.com/package_registry/experimental/dapp-repository/
+      commit: 47c81fe47bfbb69e05c6782c2d91ab63aa10a678975a64682ec005f62731fd50
+
+    # Some `token_balance_keeper` instances, that is, the `contract-template` + the `parameters`.
+    #
+    target_instances:
+      # instance contract-id:
+      #
+      2c35bc9dc83b798cc8dfb281dc30d787583b4af0119c66f865fec0d8124b207a:
+        # instance `parameter.json`
+        admin:
+          auth: 471e2a211bbe8d2e10c9ee7ae12a48c1df70980a9812bb96e68be01ca2c3fa04
+          account: null
+
+      67c3179410c8adae799d677dc0e6ed9a064538cc638fc6bf4b3ba5769a4b0e63:
+        admin:
+          auth: 471e2a211bbe8d2e10c9ee7ae12a48c1df70980a9812bb96e68be01ca2c3fa04
+          account: null
+
+      8a0581842b45e9783860ac988183e91ff64b85b1a443ca03beea68a15c0f88d4:
+        admin:
+          auth: 471e2a211bbe8d2e10c9ee7ae12a48c1df70980a9812bb96e68be01ca2c3fa04
+          account: null
+
+  limited_nft_changes:
+    version_date: 2023-08-17T11:58:52-03:00
+    # The `contract_module` is not only the contract-id of the template, but also the
+    # name of the `npm` typescript package containing this dApp (onchain contract code
+    # + offhcain code + types)
+    #
+    # These dApp package's code will be enriched with info such the contract hash-id.
+    #
+    # Packages names are hashes, but they are downloaded and installed using normal javascript
+    # tooling such `yarn` or `npm`. For example
+    # `yarn install 'cweb_e48afe8b5234bb527ee4807f714d42901c77002ca1bb7e8e4e876fdd1626339f'`
+    #
+    # We'll have a tool that will take as input a `node_modules` and for each dApp package will output:
+    #
+    #   * whether they were correctly generated or not.
+    #
+    #   * whether the contract-template is already registered or not.
+    #
+    #
+    # To prove that the off-chain code relates to the onchain code, the contract tree will include a
+    # hash reference to the off-chain code; because of some technical reasons, this hash and
+    # the module's hash are not the same (but are related).
+    #
+    # It is possible to prove that a contract-template relates to a dApp module **even if
+    # the contract-template has not been registered**.
+    #
+    # the npm package repository from where to install the dApp module
+    #
+    contract_module: 63a605980bb93ae2c5210c87f6a7a936f8990327b93f42dfaf67ddf62e55d1c8
+    target_instances: []
+    pkg_mirror:
+      url: https://gitlab.com/package_registry/experimental/dapp-repository/
+      commit: 47c81fe47bfbb69e05c6782c2d91ab63aa10a678975a64682ec005f62731fd50
+
+  Limited_minter:
+    version_date: 2023-08-17T11:58:52-03:00
+    contract_module: f44a9ca52dd323355f21840c9d79ad4a0432d2dbfc42830d16331e500ae22caf
+    target_instances: []
+    pkg_mirror:
+      url: https://gitlab.com/package_registry/experimental/dapp-repository/
+      commit: 47c81fe47bfbb69e05c6782c2d91ab63aa10a678975a64682ec005f62731fd50
+
+  bridge_curator:
+    version_date: 2023-08-17T11:58:52-03:00
+    contract_module: a3be81008b5095edd78a0472c2357d71e0d535af84d3d0e677e4d21d11f55c00
+    target_instances: []
+    pkg_mirror:
+      url: https://gitlab.com/package_registry/experimental/dapp-repository/
+      commit: 47c81fe47bfbb69e05c6782c2d91ab63aa10a678975a64682ec005f62731fd50
+
+  bridge_base:
+    version_date: 2023-08-17T11:58:52-03:00
+    contract_module: a5ffe1c440e2209387125ea1524b16c9a5a604c86afa93fad0132cd4ae4113d1
+    target_instances: []
+    pkg_mirror:
+      url: https://gitlab.com/package_registry/experimental/dapp-repository/
+      commit: 47c81fe47bfbb69e05c6782c2d91ab63aa10a678975a64682ec005f62731fd50
+
+  token_data_keeper:
+    version_date: 2023-08-17T11:58:52-03:00
+    contract_module: 93fd81ee8ccc24b228a59aa2e166d1d99deda991d36294ded6ae70f07581d7bb
+    target_instances: []
+    pkg_mirror:
+      url: https://gitlab.com/package_registry/experimental/dapp-repository/
+      commit: 47c81fe47bfbb69e05c6782c2d91ab63aa10a678975a64682ec005f62731fd50
+
+  onchain_game_example:
+    version_date: 2023-08-17T11:58:52-03:00
+    contract_module: bf68e0be6d457ba7102d2ed287097033945cfa75f9d538af4c61087bcd7d6cf2
+    target_instances: []
+    pkg_mirror:
+      url: https://gitlab.com/package_registry/experimental/dapp-repository/
+      commit: 47c81fe47bfbb69e05c6782c2d91ab63aa10a678975a64682ec005f62731fd50
+
+  restriction_node:
+    version_date: 2023-08-17T11:58:52-03:00
+    contract_module: cbdfcbbee9a490aca2a2bc6b859967836bfe3d1f00c72919711e1b12c0368f9d
+    target_instances: []
+    pkg_mirror:
+      url: https://gitlab.com/package_registry/experimental/dapp-repository/
+      commit: 47c81fe47bfbb69e05c6782c2d91ab63aa10a678975a64682ec005f62731fd50
+
+  ecdsa_contract:
+    version_date: 2023-08-17T11:58:52-03:00
+    contract_module: d60346116fde8ea71194a6e738cad43fe86d69ea6fff0e5903135128b8086843
+    target_instances: []
+    pkg_mirror:
+      url: https://gitlab.com/package_registry/experimental/dapp-repository/
+      commit: 47c81fe47bfbb69e05c6782c2d91ab63aa10a678975a64682ec005f62731fd50
+
+  bonding_curve:
+    version_date: 2023-08-17T11:58:52-03:00
+    contract_module: 581a9cf6e425520224de93b6ae14ca338a89b3f44a6569ff84c3d4549c2835d2
+    target_instances: []
+    package_mirror:
+      url: https://gitlab.com/package_registry/experimental/dapp-repository/
+      commit: 47c81fe47bfbb69e05c6782c2d91ab63aa10a678975a64682ec005f62731fd50
+
+  auction_place:
+    version_date: 2023-08-17T11:58:52-03:00
+    contract_module: b5ed80a70587306ce541483d105ec015411cd4c2395473ff365a5077636e08a3
+    target_instances: []
+    pkg_mirror:
+      url: https://gitlab.com/package_registry/experimental/dapp-repository/
+      commit: 47c81fe47bfbb69e05c6782c2d91ab63aa10a678975a64682ec005f62731fd50
+      # action 1
+- key:
+    - «first key»
+    - «second key»
+  issuer: «issuer of the claim we'll lookup»
+  command: |
+    «a UI-command to be executed, using the same format as the QRs the wallet-app uses»
+
+# action 2
+- key:
+    - «first key»
+    - «second key»
+  issuer: «issuer of the claim we'll lookup»
+  command: |
+    «a UI-command to be executed, using the same format as the QRs the wallet-app uses»
+    target_contracts:
+# contract 1
+- template: «alias of template, such  as"token_balance_keeper"»
+  parameters:
+    «an object representing the expected `parameters.json` the contract expects»
+# contract 2
+- template: «alias»
+  parameters: «parameters»
+ ..
+# contract N
+- template: «alias of templa, such "token_balance_keeper"»
+  parameters:
+    «an object representing the expected `parameters.json` the contract expects»
+
+target_interpreters:
+
+  «alias 1»:
+    entry_point: «url to  the wasm file of the entrypoint»
+    cli_args: «the command line arguments the entry_point binary will be executed with»
+    auto_registry: «url to the registry js file»
+    env: # a list of env-variables the the entry_point binary will be executed with
+    - FOO: XOO
+    - RRR: EEE
+
+  «alias 2»:  ...
+
+  «alias 3»: ...
+
+contract_modules:
+- «url or path to a contract module on a package registry»
+- «url or path to a contract module on a package registry»
+- «url or path to a contract module on a package registry»
+- «url or path to a contract module on a package registry»
+$ npx create-index --target target_instance.yml -output known_contract_template.yaml
+let ref = contract_ref(
+  [«interpreter-id»],
+  {
+    'onchain.js': «the package/onchain_lib/main.js file»,
+    'off-chain.ref': «the computed off-chain-id hash»,
+  }
+)let ref = contract_ref(
+  [«contract-template-id»],
+  { 'parameters.json': «the parameters field» }
+)
+- «url or path to a contract module on a package registry»
+let ref = contract_ref(
+  [], // empty! defining from scratch!!
+  {
+    'entry_point.wasm': «...»,
+    'onchain.js': «the self registry script»,
+  }
+)
+claim_issuer: «the template-id or contract-id»
+first_key: 'self_registry'
+second_key: ''
+ {
+   "first_key": "transaction_type_A",
+   "second_key": "txid_123"
+ }
+ {
+   "first_key": "transaction_type_A",
+   "second_key": "txid_124"
+ }
+ {
+  "first_key": "txid_123",
+  "second_key": "detail_1"
+}
+{
+  "first_key": "txid_124",
+  "second_key": "detail_2"
+  # Retrieve the user ID of the current user and save it to a file named 'uid'
+echo $(id -u) > .devcontainer/uid
+
+# Retrieve the group ID of the current user and save it to a file named 'gid'
+echo $(id -g) > .devcontainer/gid
+
+}
+
+FROM rg.fr-par.scw.cloud/coinweb-devnet/main:latest AS devnet
+COPY gid uid prepare-user.sh /tmp/
+RUN /tmp/prepare-user.sh "$(cat /tmp/gid)" "$(cat /tmp/uid)"
+RUN npm install --location=global corepack typescript
+version: '3.1'
+name: coinweb-devnet
+services:
+  postgres:
+    # Using alpine as it smaller in size.
+    image: postgres:16.1-alpine
+    environment:
+      POSTGRES_DB: devnet
+      POSTGRES_PASSWORD: devnet
+      POSTGRES_USER: devnet
+  contracts_init:
+    image: postgres:16.1-alpine
+    depends_on:
+      - postgres
+    restart: no
+    volumes:
+      # Initial contracts to deploy to the database (linked from devnet container).
+      - contracts:/coinweb/contracts:ro
+    # We must wait until the volume will be mounted to run the script.
+    entrypoint: |
+      bash -c "
+        while [[ ! -d /coinweb/contracts/bin ]]; do sleep .1; done;
+        /coinweb/contracts/bin/deploy.sh
+      "
+  devnet:
+    image: .
+    environment:
+      API_ENDPOINT_DEVNET: http://localhost:5000/wallet
+      NODE_ENV: development
+    links:
+      - postgres
+      - contracts_init
+    volumes:
+      - ..:/workspace:cached
+      - contracts:/coinweb/contracts:ro
+    ports:
+      - 5000:5100 # API
+      - 5001:5101 # DevTools
+      - 5002:5102 # Explorer
+      - 5003:5103 # LinkMint
+volumes:
+  contracts: {}
+  docker-compose up
+  docker-compose down --rmi=all
+  query {
+  shardsState(networks: [DEVNET_L1A]) {
+    shard
+    live
+    ready
+  }
+}
+cweb-tool publish .cweb-config/dapp-ecosystem.yaml .cweb-config/mnemonic.txt DEVNET_L1A $API_ENDPOINT_DEVNET
+.devcontainer
+├── Dockerfile
+├── devcontainer.json
+├── docker-compose.yml
+└── prepare-user.sh
+{
+  "name": "Coinweb DevNet",
+  "dockerComposeFile": "docker-compose.yml",
+  "service": "devnet",
+  "workspaceFolder": "/workspace",
+  "remoteUser": "cweb-dev",
+  "onCreateCommand": "yes | yarn config set --home npmRegistryServer \"$YARN_REGISTRY\"",
+  "initializeCommand": {
+    "uidResolve": "id -u > .devcontainer/uid",
+    "gidResolve": "id -g > .devcontainer/gid"
+  }
+}
+export YARN_REGISTRY=https://npm.coinweb.io
+"uidResolve": "id -u > .devcontainer/uid",
+"gidResolve": "id -g > .devcontainer/gid"
+mkdir my-workspace
+cd my-workspace
+yarn init
+{
+  "name": "my-workspace",
+  "private": true,
+  "workspaces": ["packages/*"],
+  "nohoist": ["**"]
+}
+mkdir packages
+cd packages
+mkdir main-project contract-module-a contract-module-b
+mkdir packages
+cd packages
+mkdir main-project contract-module-a contract-module-b
+foreach ($dir in "main-project", "contract-module-a", "contract-module-b") {
+  mkdir $dir
+}
+my-workspace/
+│
+├── packages/
+│   ├── main-project/
+│   ├── contract-module-a/
+│   └── contract-module-b/
+│
+└── package.json
+cd main-project
+yarn init
+cd ../contract-module-a
+yarn init
+cd ../contract-module-b
+yarn init
+cd main-project
+yarn add @coinweb/wallet-lib
+yarn add @coinweb/cweb-tool --dev
+cd ../contract-module-a
+yarn add contract-module-b contract-module-ext
+yarn add webpack webpack-cli ts-loader terser-webpack-plugin @coinweb/cweb-tool --dev
+npx cweb-tool init
+cd ../contract-module-b
+yarn add contract-module-ext
+yarn add webpack webpack-cli ts-loader terser-webpack-plugin @coinweb/cweb-tool --dev
+npx cweb-tool init
+const path = require('path');
+const TerserPlugin = require('terser-webpack-plugin');
+
+module.exports = (env, argv) => {
+  const isProduction = argv.mode === 'production';
+
+  return {
+    entry: './src/main.ts',
+    output: {
+      filename: 'main.js',
+      path: path.resolve(__dirname, 'onchain_lib'),
+    },
+    resolve: {
+      extensions: ['.ts', '.tsx', '.js', '.json'],
+    },
+    module: {
+      rules: [
+        {
+          test: /\.tsx?$/,
+          use: 'ts-loader',
+          exclude: /node_modules/,
+        },
+      ],
+    },
+    optimization: {
+      minimize: isProduction,
+      minimizer: [
+        new TerserPlugin({
+          terserOptions: {
+            compress: {
+              drop_console: true,
+            },
+          },
+        }),
+      ],
+    },
+  };
+};
+{
+  "compilerOptions": {
+    "module": "ESNext",
+    "moduleResolution": "node",
+    "target": "ES5"
+  }
+}
+"scripts": {
+  "build": "webpack --mode production",
+  "dev": "webpack --mode development",
+  "postinstall": "cweb-tool audit",
+  @coinweb:registry=https://gitlab.com/api/v4/projects/29112346/packages/npm/
+//gitlab.com/api/v4/projects/29112346/packages/npm/:_authToken=<AUTH_TOKEN>
+
+}
+npm install @coinweb/cweb-wallet-library
+yarn add @coinweb/cweb-wallet-library
+import { create_tx_monitor, Transaction } from '@coinweb/cweb-wallet-library';
+
+let pending_txs: Transaction[] = ...
+// Load pending transactions from local cache (persistent) or from server
+
+let utxos: Map<SigningTxInputId, PaymentUtxoInfo[]> = ...
+// Load utxos reserved for this transactions from local cache (persistent) or from server
+
+let tx_monitor = create_tx_monitor(pending_txs, utxos);
+pnpm add @coinweb/cweb-wallet-library
+import { subscribe_to_notifications } from '@coinweb/cweb-wallet-library';
+
+const subscription = subscribe_to_notifications(wallet); // Get `Observable` of events stream
+
+subscription.subscribe((_x) => {}); // Currently there is no need to do anything in handler, but this call is required anyway
+import { compose_send, embed, SendUiCommand } from '@coinweb/cweb-wallet-library';
+
+const command: SendUiCommand = {...};
+
+const l2TransactionData = await compose_send(wallet, command);
+import { compose_token_command, embed, TokenUiCommand } from '@coinweb/cweb-wallet-library';
+
+const command: TokenUiCommand = {...};
+
+// Compose L2 transaction from token command:
+const l2TransactionData = await compose_token_command(wallet, command);
+
+// Prepare L1 transaction base on l2TransactionData and execute it:
+const uuid = await embed(wallet, l2TransactionData);
+
+// Retrieve its current status:
+const status = await embed_status(wallet, [uuid]);
+const new_txs = await add_txs(tx_monitor, l2TransactionData.l2_transaction);
+const new_txs = await add_txs(tx_monitor, l2TransactionData.l2_transaction);
+const pending_txs = await get_pending_txs(tx_monitor);
+const pending_txs = await get_pending_txs(tx_monitor);
+const reserved_utxos = await get_all_utxos(tx_monitor);
+const embedding_id = await embed(wallet, l2TransactionData.l2_transaction);
+import {
+    create_wallet,
+    from_hex_string,
+    sign, // This function provides a reference implementation
+    test_signing
+} from '@coinweb/cweb-wallet-library';
+
+const wallet = create_wallet({
+    ...
+    pub_key: '0218845781f631c48f1c9709e23092067d06837f30aa0cd0544ac887fe91ddd166',
+    sign_callback: (msg) => {
+        let secret_key = from_hex_string(
+            '01010101010101010001020304050607ffff0000ffff00006363636363636363'
+        );
+        return sign(secret_key, msg);
+    },
+});
+
+// Call this function to test the `sign_callback` works as expected.
+// After each sign, the signature is verified. The `test_signing` performs
+// test signing, if no exception is thrown then signing works.
+
+test_signing(wallet);
+	Negative "Negative" 
+Positive "Positive"
+AddLiquidityPoolLiquidity	"AddLiquidityPoolLiquidity"
+BuyForToken	"BuyForToken"
+BuyToken	"BuyToken"
+BuyViaCweb	"BuyViaCweb"
+CreateCwebLiquidityPool	"CreateCwebLiquidityPool"
+CreateToken	"CreateToken"
+FreezeBondingCurve	"FreezeBondingCurve"
+MintToken	"MintToken"
+RemoveLiquidityPoolLiquidity	"RemoveLiquidityPoolLiquidity"
+SellForToken	"SellForToken"
+SellToken	"SellToken"
+SellViaCweb	"SellViaCweb"
+TransferToken	"TransferToken"
+UpdateBondingCurve	"UpdateBondingCurve"
+UpdateLiquidityPoolCurve	"UpdateLiquidityPoolCurve"
+UpdateToken	"UpdateToken"
+WithdrawCweb	"WithdrawCweb"
+WithdrawTokens	"WithdrawTokens"
+BondingCurve	"BondingCurve"
+BondingCurveExtraFields	"BondingCurveExtraFields"
+BondingCurveFunds	"BondingCurveFunds"
+CalculateLiquidityChangeFees	"CalculateLiquidityChangeFees"
+CurrentPrice	"CurrentPrice"
+HistoricalExtraFields	"HistoricalExtraFields"
+HistoricalSupply	"HistoricalSupply"
+IsBondingCurveFrozen	"IsBondingCurveFrozen"
+L2Txid	"L2Txid"
+LastExtraFields	"LastExtraFields"
+ProtocolFields	"ProtocolFields"
+TokenRateLimiterState	"TokenRateLimiterState"
+TopHolders	"TopHolders"
+TotalSupply	"TotalSupply"
+BondingCurveFrozen	"BondingCurveFrozen"
+BondingCurveReachDomain	"BondingCurveReachDomain"
+BondingDoesNotExist	"BondingDoesNotExist"
+CalculationFailed	"CalculationFailed"
+CanNotMintMoreThanMaxSupply	"CanNotMintMoreThanMaxSupply"
+Canceled	"Canceled"
+CwebSupplyDecreased	"CwebSupplyDecreased"
+CwebSupplyGreaterThenDomain	"CwebSupplyGreaterThenDomain"
+ExchangeQueueIsEmpty	"ExchangeQueueIsEmpty"
+InitialTokenSupplyMustBeZero	"InitialTokenSupplyMustBeZero"
+InvalidPublicKey	"InvalidPublicKey"
+LimitNotFit	"LimitNotFit"
+NakedTokensIncreased	"NakedTokensIncreased"
+NotEnoughFunds	"NotEnoughFunds"
+NotMonotonicallyDecreasingCurve	"NotMonotonicallyDecreasingCurve"
+NotMonotonicallyDecreasingWide	"NotMonotonicallyDecreasingWide"
+Overflow	"Overflow"
+PayToBroadcasterFailed	"PayToBroadcasterFailed"
+SaleNotStarted	"SaleNotStarted"
+TokenAlreadyExists	"TokenAlreadyExists"
+TokenAmountGreaterThenRateLimiterMax	"TokenAmountGreaterThenRateLimiterMax"
+TokenDoesNotExist	"TokenDoesNotExist"
+TokenNotMintable	"TokenNotMintable"
+TokenNotNaked	"TokenNotNaked"
+TokenRateLimit	"TokenRateLimit"
+TokenRateLimiterError	"TokenRateLimiterError"
+TokenRateLimiterRefillDurationError	"TokenRateLimiterRefillDurationError"
+TokenRateLimiterRefillGreaterThenOneDay	"TokenRateLimiterRefillGreaterThenOneDay"
+UserIsNotAdmin	"UserIsNotAdmin"
+UserIsNotMinter	"UserIsNotMinter"
+WrongOrderSegment	"WrongOrderSegment"
+ZeroAmount	"ZeroAmount"
+Error	"Error"
+L1BeforeEmbed	"L1BeforeEmbed"
+L1Confirmed	"L1Confirmed"
+L1Mempool	"L1Mempool"
+L1Pending	"L1Pending"
+L2Confirmed	"L2Confirmed"
+L2Success	"L2Success"
+L2Unknown	"L2Unknown
+CreatedTokens	"CreatedTokens"
+HeldTokens	"HeldTokens"
+LiquidTokens	"LiquidTokens"
+PaymentConfirmations	"PaymentConfirmations
+TransactionMonitor
+Promise <Transaction[]>
+function any_pending_txs(tx_monitor): boolean; 
+TransactionMonitor
+boolean
+
+
+// Call this function to test the `sign_callback` works as expected.
+// After each sign, the signature is verified. The `test_signing` performs
+// test signing, if no exception is thrown then signing works.
+
+test_signing(wallet);
+	Negative "Negative" 
+Positive "Positive"
+AddLiquidityPoolLiquidity	"AddLiquidityPoolLiquidity"
+BuyForToken	"BuyForToken"
+BuyToken	"BuyToken"
+BuyViaCweb	"BuyViaCweb"
+CreateCwebLiquidityPool	"CreateCwebLiquidityPool"
+CreateToken	"CreateToken"
+FreezeBondingCurve	"FreezeBondingCurve"
+MintToken	"MintToken"
+RemoveLiquidityPoolLiquidity	"RemoveLiquidityPoolLiquidity"
+SellForToken	"SellForToken"
+SellToken	"SellToken"
+SellViaCweb	"SellViaCweb"
+TransferToken	"TransferToken"
+UpdateBondingCurve	"UpdateBondingCurve"
+UpdateLiquidityPoolCurve	"UpdateLiquidityPoolCurve"
+UpdateToken	"UpdateToken"
+WithdrawCweb	"WithdrawCweb"
+WithdrawTokens	"WithdrawTokens"
+BondingCurve	"BondingCurve"
+BondingCurveExtraFields	"BondingCurveExtraFields"
+BondingCurveFunds	"BondingCurveFunds"
+CalculateLiquidityChangeFees	"CalculateLiquidityChangeFees"
+CurrentPrice	"CurrentPrice"
+HistoricalExtraFields	"HistoricalExtraFields"
+HistoricalSupply	"HistoricalSupply"
+IsBondingCurveFrozen	"IsBondingCurveFrozen"
+L2Txid	"L2Txid"
+LastExtraFields	"LastExtraFields"
+ProtocolFields	"ProtocolFields"
+TokenRateLimiterState	"TokenRateLimiterState"
+TopHolders	"TopHolders"
+TotalSupply	"TotalSupply"
+BondingCurveFrozen	"BondingCurveFrozen"
+BondingCurveReachDomain	"BondingCurveReachDomain"
+BondingDoesNotExist	"BondingDoesNotExist"
+CalculationFailed	"CalculationFailed"
+CanNotMintMoreThanMaxSupply	"CanNotMintMoreThanMaxSupply"
+Canceled	"Canceled"
+CwebSupplyDecreased	"CwebSupplyDecreased"
+CwebSupplyGreaterThenDomain	"CwebSupplyGreaterThenDomain"
+ExchangeQueueIsEmpty	"ExchangeQueueIsEmpty"
+InitialTokenSupplyMustBeZero	"InitialTokenSupplyMustBeZero"
+InvalidPublicKey	"InvalidPublicKey"
+LimitNotFit	"LimitNotFit"
+NakedTokensIncreased	"NakedTokensIncreased"
+NotEnoughFunds	"NotEnoughFunds"
+NotMonotonicallyDecreasingCurve	"NotMonotonicallyDecreasingCurve"
+NotMonotonicallyDecreasingWide	"NotMonotonicallyDecreasingWide"
+Overflow	"Overflow"
+PayToBroadcasterFailed	"PayToBroadcasterFailed"
+SaleNotStarted	"SaleNotStarted"
+TokenAlreadyExists	"TokenAlreadyExists"
+TokenAmountGreaterThenRateLimiterMax	"TokenAmountGreaterThenRateLimiterMax"
+TokenDoesNotExist	"TokenDoesNotExist"
+TokenNotMintable	"TokenNotMintable"
+TokenNotNaked	"TokenNotNaked"
+TokenRateLimit	"TokenRateLimit"
+TokenRateLimiterError	"TokenRateLimiterError"
+TokenRateLimiterRefillDurationError	"TokenRateLimiterRefillDurationError"
+TokenRateLimiterRefillGreaterThenOneDay	"TokenRateLimiterRefillGreaterThenOneDay"
+UserIsNotAdmin	"UserIsNotAdmin"
+UserIsNotMinter	"UserIsNotMinter"
+WrongOrderSegment	"WrongOrderSegment"
+ZeroAmount	"ZeroAmount"
+Error	"Error"
+L1BeforeEmbed	"L1BeforeEmbed"
+L1Confirmed	"L1Confirmed"
+L1Mempool	"L1Mempool"
+L1Pending	"L1Pending"
+L2Confirmed	"L2Confirmed"
+L2Success	"L2Success"
+L2Unknown	"L2Unknown
+CreatedTokens	"CreatedTokens"
+HeldTokens	"HeldTokens"
+LiquidTokens	"LiquidTokens"
+PaymentConfirmations	"PaymentConfirmations
+TransactionMonitor
+Promise <Transaction[]>
+function any_pending_txs(tx_monitor): boolean; 
+TransactionMonitor
+booleanx
